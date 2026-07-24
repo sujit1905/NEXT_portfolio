@@ -130,7 +130,7 @@ const AboutMe = () => {
                                 className="slide-up-and-fade font-jakarta leading-relaxed"
                                 style={{ color: '#B8B8B8' }}
                             >
-                                I'm a MERN Stack Developer passionate about transforming ideas into modern, scalable, and user-focused web applications. I specialize in building seamless digital experiences with React, Next.js, Node.js, Express.js, and MongoDB, combining intuitive frontend interfaces with robust backend systems.
+                                I&apos;m a MERN Stack Developer passionate about transforming ideas into modern, scalable, and user-focused web applications. I specialize in building seamless digital experiences with React, Next.js, Node.js, Express.js, and MongoDB, combining intuitive frontend interfaces with robust backend systems.
                             </p>
                             <p
                                 className="slide-up-and-fade font-jakarta leading-relaxed"

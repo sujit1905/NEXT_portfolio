@@ -150,7 +150,7 @@ const Banner = () => {
                         >
                             Sujit Mecwan
                         </span>
-                        . Hi! I'm Sujit Mecwan. A passionate MERN Stack Developer focused on building modern, scalable, and high-performance full-stack web applications with exceptional user experiences and clean backend architecture.
+                        . Hi! I&apos;m Sujit Mecwan. A passionate MERN Stack Developer focused on building modern, scalable, and high-performance full-stack web applications with exceptional user experiences and clean backend architecture.
                     </p>
 
                     {/* CTA */}
