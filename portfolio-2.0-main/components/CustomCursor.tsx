@@ -1,55 +1,141 @@
 'use client';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 gsap.registerPlugin(useGSAP);
 
 const CustomCursor = () => {
-    const svgRef = useRef<SVGSVGElement>(null);
+    const outerRef = useRef<HTMLDivElement>(null);
+    const innerRef = useRef<HTMLDivElement>(null);
 
-    useGSAP((context, contextSafe) => {
+    useEffect(() => {
         if (window.innerWidth < 768) return;
 
-        const handleMouseMove = contextSafe?.((e: MouseEvent) => {
-            if (!svgRef.current) return;
+        let mouseX = 0;
+        let mouseY = 0;
 
-            const { clientX, clientY } = e;
+        const handleMouseMove = (e: MouseEvent) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
 
-            gsap.to(svgRef.current, {
-                x: clientX,
-                y: clientY,
+            // Inner dot — snappy
+            gsap.to(innerRef.current, {
+                x: mouseX - 3,
+                y: mouseY - 3,
+                duration: 0.08,
                 ease: 'power2.out',
-                duration: 0.25,
                 opacity: 1,
             });
-        }) as any;
+
+            // Outer ring — lags behind for premium feel
+            gsap.to(outerRef.current, {
+                x: mouseX - 16,
+                y: mouseY - 16,
+                duration: 0.55,
+                ease: 'power3.out',
+                opacity: 1,
+            });
+        };
+
+        const handleMouseEnterInteractive = () => {
+            gsap.to(outerRef.current, {
+                scale: 1.8,
+                borderColor: 'rgba(0, 214, 143, 0.7)',
+                boxShadow: '0 0 16px rgba(0, 214, 143, 0.35)',
+                duration: 0.3,
+                ease: 'power2.out',
+            });
+            gsap.to(innerRef.current, {
+                scale: 0,
+                duration: 0.2,
+            });
+        };
+
+        const handleMouseLeaveInteractive = () => {
+            gsap.to(outerRef.current, {
+                scale: 1,
+                borderColor: 'rgba(0, 214, 143, 0.35)',
+                boxShadow: '0 0 8px rgba(0, 214, 143, 0.15)',
+                duration: 0.3,
+                ease: 'power2.out',
+            });
+            gsap.to(innerRef.current, {
+                scale: 1,
+                duration: 0.2,
+            });
+        };
+
+        const handleMouseLeaveWindow = () => {
+            gsap.to([outerRef.current, innerRef.current], {
+                opacity: 0,
+                duration: 0.3,
+            });
+        };
+
+        // Attach to interactive elements
+        const addInteractivity = () => {
+            const interactives = document.querySelectorAll(
+                'a, button, [data-cursor-hover]',
+            );
+            interactives.forEach((el) => {
+                el.addEventListener('mouseenter', handleMouseEnterInteractive);
+                el.addEventListener('mouseleave', handleMouseLeaveInteractive);
+            });
+        };
+
+        addInteractivity();
+
+        // Re-attach on DOM mutations (for dynamically added elements)
+        const observer = new MutationObserver(addInteractivity);
+        observer.observe(document.body, { childList: true, subtree: true });
 
         window.addEventListener('mousemove', handleMouseMove);
+        document.documentElement.addEventListener(
+            'mouseleave',
+            handleMouseLeaveWindow,
+        );
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
+            document.documentElement.removeEventListener(
+                'mouseleave',
+                handleMouseLeaveWindow,
+            );
+            observer.disconnect();
         };
-    });
+    }, []);
 
     return (
-        <svg
-            width="27"
-            height="30"
-            viewBox="0 0 27 30"
-            className="hidden md:block fixed top-0 left-0 opacity-0 z-[50] pointer-events-none" // -translate-x-1/2 -translate-y-1/2
-            fill="none"
-            id="cursor"
-            strokeWidth="2"
-            opacity="0"
-            xmlns="http://www.w3.org/2000/svg"
-            ref={svgRef}
-        >
-            <path
-                d="M20.0995 11.0797L3.72518 1.13204C2.28687 0.258253 0.478228 1.44326 0.704999 3.11083L3.28667 22.0953C3.58333 24.2768 7.33319 24.6415 8.3792 22.7043C9.5038 20.6215 10.8639 18.7382 12.43 17.7122C13.996 16.6861 16.2658 16.1911 18.6244 15.9918C20.8181 15.8063 21.9811 12.2227 20.0995 11.0797Z"
-                className="fill-foreground stroke-background/50"
+        <>
+            {/* Outer lagging ring */}
+            <div
+                ref={outerRef}
+                className="hidden md:block fixed top-0 left-0 z-[9999] pointer-events-none opacity-0"
+                style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: '50%',
+                    border: '1px solid rgba(0, 214, 143, 0.35)',
+                    boxShadow: '0 0 8px rgba(0, 214, 143, 0.15)',
+                    mixBlendMode: 'normal',
+                    willChange: 'transform',
+                }}
             />
-        </svg>
+            {/* Inner snappy dot */}
+            <div
+                ref={innerRef}
+                className="hidden md:block fixed top-0 left-0 z-[9999] pointer-events-none opacity-0"
+                style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: '50%',
+                    backgroundColor: '#00D68F',
+                    boxShadow: '0 0 6px rgba(0, 214, 143, 0.8)',
+                    willChange: 'transform',
+                }}
+            />
+        </>
     );
 };
 

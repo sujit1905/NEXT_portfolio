@@ -13,9 +13,13 @@ export default {
             colors: {
                 background: {
                     DEFAULT: 'hsl(var(--background))',
+                    mid: 'hsl(var(--background-mid))',
                     light: 'hsl(var(--background-light))',
                 },
-                foreground: 'hsl(var(--foreground))',
+                foreground: {
+                    DEFAULT: 'hsl(var(--foreground))',
+                    muted: 'hsl(var(--foreground-muted))',
+                },
                 card: {
                     DEFAULT: 'hsl(var(--card))',
                     foreground: 'hsl(var(--card-foreground))',
@@ -32,6 +36,7 @@ export default {
                     DEFAULT: 'hsl(var(--secondary))',
                     foreground: 'hsl(var(--secondary-foreground))',
                 },
+                glow: 'hsl(var(--glow))',
                 muted: {
                     DEFAULT: 'hsl(var(--muted))',
                     foreground: 'hsl(var(--muted-foreground))',
@@ -61,8 +66,12 @@ export default {
                 sm: 'calc(var(--radius) - 4px)',
             },
             fontFamily: {
-                anton: ['var(--font-anton)'],
-                'roboto-flex': ['var(--font-roboto-flex)'],
+                // New premium fonts
+                'space-grotesk': ['var(--font-space-grotesk)'],
+                jakarta: ['var(--font-jakarta)'],
+                // Kept for backward compat (mapped to new fonts)
+                anton: ['var(--font-space-grotesk)'],
+                'roboto-flex': ['var(--font-jakarta)'],
             },
             padding: {
                 section: '250px',
@@ -80,6 +89,12 @@ export default {
             },
             screens: {
                 xs: '420px',
+            },
+            boxShadow: {
+                'glow-sm': '0 0 12px rgba(0, 214, 143, 0.2)',
+                'glow-md': '0 0 24px rgba(0, 214, 143, 0.15)',
+                'glow-lg': '0 0 40px rgba(0, 214, 143, 0.1)',
+                'glow-blue': '0 0 20px rgba(77, 166, 255, 0.15)',
             },
         },
     },

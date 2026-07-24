@@ -50,13 +50,13 @@ const Button = ({
     ...rest
 }: Props) => {
     const variantClasses = {
-        primary: `bg-primary text-primary-foreground  hover:bg-primary-hover`,
-        secondary: `bg-secondary text-secondary-foreground hover:bg-secondary-hover`,
+        primary: `btn-primary`,
+        secondary: `btn-secondary`,
         success: `bg-green-500 text-white hover:bg-green-600`,
         warning: `bg-orange-500 text-white hover:bg-orange-600`,
         danger: `bg-destructive text-destructive-foreground hover:bg-destructive/70`,
         info: `bg-blue-500 text-white hover:bg-blue-600`,
-        light: `bg-background-active text-foreground hover:bg-background-active`,
+        light: `bg-background-light text-foreground hover:bg-background-light`,
         dark: `bg-foreground text-background hover:bg-foreground/80`,
         link: `text-foreground hover:text-primary`,
         'no-color': '',
@@ -68,10 +68,27 @@ const Button = ({
     );
 
     const buttonClasses = cn(
-        `group h-12 px-8 inline-flex justify-center items-center gap-2 text-lg uppercase font-anton tracking-widest outline-none transition-colors relative overflow-hidden`,
+        `group relative h-12 px-8 inline-flex justify-center items-center gap-2 text-sm font-space-grotesk font-medium tracking-widest uppercase outline-none overflow-hidden transition-all duration-400`,
         variantClasses,
         { [iconClasses]: icon },
         className,
+    );
+
+    const inner = (
+        <>
+            {/* Sweep background on hover */}
+            <span
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{
+                    background:
+                        'linear-gradient(135deg, rgba(0,214,143,0.08) 0%, rgba(0,214,143,0.03) 100%)',
+                }}
+                aria-hidden="true"
+            />
+            <span className="relative z-[1]">
+                {loading ? <Child icon={icon} /> : children}
+            </span>
+        </>
     );
 
     if (as === 'link') {
@@ -84,37 +101,21 @@ const Button = ({
                     {...props}
                     href={props.href.toString() || '#'}
                 >
-                    {variant !== 'link' && (
-                        <span className="absolute top-[200%] left-0 right-0 h-full bg-white rounded-[50%] group-hover:top-0 transition-all duration-500 scale-150"></span>
-                    )}
-                    <span className="z-[1]">
-                        {loading ? <Child icon={icon} /> : children}
-                    </span>
+                    {inner}
                 </a>
             );
         }
 
         return (
             <Link className={buttonClasses} {...props} href={props.href || '#'}>
-                {variant !== 'link' && (
-                    <span className="absolute top-[200%] left-0 right-0 h-full bg-white rounded-[50%] group-hover:top-0 transition-all duration-500 scale-150"></span>
-                )}
-                <span className="z-[1]">
-                    {loading ? <Child icon={icon} /> : children}
-                </span>
+                {inner}
             </Link>
         );
     } else if (as === 'button') {
         const props = rest as ButtonProps;
-
         return (
             <button className={buttonClasses} {...props}>
-                {variant !== 'link' && (
-                    <span className="absolute top-[200%] left-0 right-0 h-full bg-white rounded-[50%] group-hover:top-0 transition-all duration-500 scale-150"></span>
-                )}
-                <span className="z-[1]">
-                    {loading ? <Child icon={icon} /> : children}
-                </span>
+                {inner}
             </button>
         );
     }

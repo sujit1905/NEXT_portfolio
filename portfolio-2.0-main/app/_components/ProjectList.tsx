@@ -111,17 +111,21 @@ const ProjectList = () => {
                 <div className="group/projects relative" ref={containerRef}>
                     {selectedProject !== null && (
                         <div
-                            className="max-md:hidden absolute right-0 top-0 z-[1] pointer-events-none w-[200px] xl:w-[350px] aspect-[3/4] overflow-hidden opacity-0"
+                            className="max-md:hidden absolute right-0 top-0 z-[1] pointer-events-none w-[200px] xl:w-[320px] aspect-[3/4] overflow-hidden opacity-0 rounded-xl"
+                            style={{
+                                border: '1px solid rgba(255,255,255,0.08)',
+                                boxShadow: '0 24px 60px rgba(0,0,0,0.5)',
+                            }}
                             ref={imageContainer}
                         >
                             {PROJECTS.map((project) => (
                                 <Image
                                     src={project.thumbnail}
                                     alt="Project"
-                                    width="400"
-                                    height="500"
+                                    width={400}
+                                    height={500}
                                     className={cn(
-                                        'absolute inset-0 transition-all duration-500 w-full h-full object-cover',
+                                        'absolute inset-0 transition-all duration-500 w-full h-full object-cover object-top',
                                         {
                                             'opacity-0':
                                                 project.slug !==
@@ -132,6 +136,14 @@ const ProjectList = () => {
                                     key={project.slug}
                                 />
                             ))}
+                            {/* Glass overlay on hover image */}
+                            <div
+                                className="absolute inset-0 pointer-events-none"
+                                style={{
+                                    background:
+                                        'linear-gradient(180deg, transparent 50%, rgba(9,9,9,0.5) 100%)',
+                                }}
+                            />
                         </div>
                     )}
 

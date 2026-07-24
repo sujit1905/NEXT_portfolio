@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import { SectionFlower } from './icons';
 import { cn } from '@/lib/utils';
 
 interface Props {
@@ -17,7 +16,7 @@ const SectionTitle = ({ icon, title, className, classNames }: Props) => {
     return (
         <div
             className={cn(
-                'flex items-center gap-4 mb-10',
+                'flex items-center gap-4 mb-12',
                 className,
                 classNames?.container,
             )}
@@ -25,22 +24,35 @@ const SectionTitle = ({ icon, title, className, classNames }: Props) => {
             {icon ? (
                 icon
             ) : (
-                <SectionFlower
-                    width={25}
+                <span
                     className={cn(
-                        'animate-spin duration-7000',
+                        'text-[10px]',
                         classNames?.icon,
                     )}
-                />
+                    style={{ color: '#00D68F' }}
+                    aria-hidden="true"
+                >
+                    ◆
+                </span>
             )}
             <h2
                 className={cn(
-                    'text-xl uppercase leading-none',
+                    'font-space-grotesk text-xs uppercase tracking-[0.25em] leading-none',
                     classNames?.title,
                 )}
+                style={{ color: '#7A7A7A' }}
             >
                 {title}
             </h2>
+            {/* Accent line stretching to the right */}
+            <div
+                className="flex-1 h-px"
+                style={{
+                    background:
+                        'linear-gradient(90deg, rgba(0, 214, 143, 0.25) 0%, transparent 100%)',
+                }}
+                aria-hidden="true"
+            />
         </div>
     );
 };

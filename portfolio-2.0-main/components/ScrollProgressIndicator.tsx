@@ -19,17 +19,28 @@ const ScrollProgressIndicator = () => {
         };
 
         handleScroll();
-
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     return (
-        <div className="fixed top-[50svh] right-[2%] -translate-y-1/2 w-1.5 h-[100px] rounded-full bg-background-light overflow-hidden">
+        <div
+            className="fixed top-[50svh] right-[1.5%] -translate-y-1/2 z-[20] overflow-hidden rounded-full"
+            style={{
+                width: 2,
+                height: 80,
+                background: 'rgba(255,255,255,0.05)',
+            }}
+        >
             <div
-                className="w-full bg-primary rounded-full h-full"
                 ref={scrollBarRef}
-            ></div>
+                className="w-full h-full rounded-full"
+                style={{
+                    background: '#00D68F',
+                    boxShadow: '0 0 8px rgba(0, 214, 143, 0.7), 0 0 16px rgba(0, 214, 143, 0.3)',
+                    transition: 'transform 0.1s linear',
+                }}
+            />
         </div>
     );
 };

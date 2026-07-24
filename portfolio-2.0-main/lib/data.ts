@@ -157,8 +157,8 @@ export const MY_EXPERIENCE = [
         duration: 'Sep 2024 - Present',
     },
     {
-        title: 'MERN STACK DEVELOPER',
+        title: 'MERN STACK DEVELOPING',
         company: 'RED & WHITE INSTITUTE',
-        duration: 'Oct 2025 - Present',
+        duration: 'Oct 2025 - JUN 2026',
     },
 ];

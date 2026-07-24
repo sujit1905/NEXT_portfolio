@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Anton, Roboto_Flex } from 'next/font/google';
+import { Space_Grotesk, Plus_Jakarta_Sans } from 'next/font/google';
 import { ReactLenis } from 'lenis/react';
 
 import 'lenis/dist/lenis.css';
@@ -14,23 +14,26 @@ import StickyEmail from './_components/StickyEmail';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import Script from 'next/script';
 
-const antonFont = Anton({
-    weight: '400',
+const spaceGrotesk = Space_Grotesk({
+    weight: ['300', '400', '500', '600', '700'],
     style: 'normal',
     subsets: ['latin'],
-    variable: '--font-anton',
+    variable: '--font-space-grotesk',
+    display: 'swap',
 });
 
-const robotoFlex = Roboto_Flex({
-    weight: ['100', '400', '500', '600', '700', '800'],
+const plusJakarta = Plus_Jakarta_Sans({
+    weight: ['300', '400', '500', '600', '700', '800'],
     style: 'normal',
     subsets: ['latin'],
-    variable: '--font-roboto-flex',
+    variable: '--font-jakarta',
+    display: 'swap',
 });
 
 export const metadata: Metadata = {
-    title: 'Sujit | Frontend Developer',
-    description: 'Sujit – MERN Stack & Frontend Developer Portfolio',
+    title: 'Sujit Mecwan | Frontend Developer',
+    description:
+        'Sujit Mecwan — Frontend & MERN Stack Developer crafting high-performance, scalable, and visually refined web experiences.',
 };
 
 export default function RootLayout({
@@ -52,7 +55,7 @@ export default function RootLayout({
             })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`}
             </Script>
             <body
-                className={`${antonFont.variable} ${robotoFlex.variable} antialiased`}
+                className={`${spaceGrotesk.variable} ${plusJakarta.variable} antialiased`}
             >
                 <ReactLenis
                     root
@@ -61,15 +64,6 @@ export default function RootLayout({
                         duration: 1.4,
                     }}
                 >
-                    {/* <a
-                        href="https://forms.gle/t73XYJgWD5cJNr6e8"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-4 block bg-black text-center z-[1] text-sm py-2 hover:text-primary transition-all"
-                    >
-                        Frontend dev? I&apos;ll help you polish your resume —
-                        completely free.
-                    </a> */}
                     <Navbar />
                     <main>{children}</main>
                     <Footer />
